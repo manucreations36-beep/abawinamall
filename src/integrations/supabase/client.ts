@@ -14,7 +14,45 @@ function serverSupabaseUrl(publicUrl: string, supabaseKey: string): string | und
   if (!serverUrl || serverUrl === publicUrl || process.env['SUPABASE_PUBLISHABLE_KEY'] !== supabaseKey) return undefined;
   return serverUrl;
 }
+function logInvalidHeaderValues(headers: HeadersInit): void {
+  const entries: Array<[string, string]> = [];
 
+  if (headers instanceof Headers) {
+    headers.forEach((value, name) => {
+      entries.push([name, value]);
+    });
+  } else if (Array.isArray(headers)) {
+    for (const [name, value] of headers) {
+      entries.push([String(name), String(value)]);
+    }
+  } else if (headers && typeof headers === "object") {
+    for (const [name, value] of Object.entries(headers)) {
+      entries.push([name, String(value)]);
+    }
+  }
+
+  for (const [name, value] of entries) {
+    const invalid = [...value].filter(
+      (character) => (character.codePointAt(0) ?? 0) > 255
+    );
+
+    if (invalid.length > 0) {
+      console.error("[Auth diagnostic] Invalid HTTP header", {
+        headerName: name,
+        codePoints: [
+          ...new Set(
+            invalid.map(
+              (character) =>
+                `U+${(character.codePointAt(0) ?? 0)
+                  .toString(16)
+                  .toUpperCase()}`
+            )
+          ),
+        ],
+      });
+    }
+  }
+}
 function createSupabaseFetch(supabaseUrl: string, supabaseKey: string): typeof fetch {
   const publicUrl = supabaseUrl.replace(/\/+$/, '');
   const serverUrl = serverSupabaseUrl(publicUrl, supabaseKey);
@@ -23,9 +61,17 @@ function createSupabaseFetch(supabaseUrl: string, supabaseKey: string): typeof f
       typeof Request !== 'undefined' && input instanceof Request ? input.headers : undefined,
     );
 
-    if (init?.headers) {
-      new Headers(init.headers).forEach((value, key) => headers.set(key, value));
-    }
+if (init?.headers) {
+  logInvalidHeaderValues(init.headers);
+
+  new Headers(init.headers).forEach((value, key) => {
+    headers.set(key, value);
+  });
+}
+
+logInvalidHeaderValues({ apikey: supabaseKey });
+
+headers.set("apikey", supabaseKey);
 
     // New Supabase API keys are opaque strings, not bearer JWTs.
     if (isNewSupabaseApiKey(supabaseKey) && headers.get('Authorization') === `Bearer ${supabaseKey}`) {
