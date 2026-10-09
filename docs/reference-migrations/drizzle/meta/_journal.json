@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1791527331230,
+      "tag": "0000_base_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791527341082,
+      "tag": "0001_function_revokes",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791527349763,
+      "tag": "0002_newsletter_and_inquiries",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791527361982,
+      "tag": "0003_testimonials_and_admin_functions",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791527554164,
+      "tag": "0004_phase1_security_hardening",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791527886610,
+      "tag": "0005_phase3_delivery_returns",
+      "breakpoints": true
+    }
+  ]
+}

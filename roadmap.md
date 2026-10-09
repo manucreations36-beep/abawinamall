@@ -1,0 +1,13 @@
+# Roadmap
+- [x] Bring app into this project
+- [x] Apply base schema to the connected backend (3 migrations: core, newsletter/inquiries/testimonials, security+delivery)
+- [x] Phase 1: role security, server-priced checkout, RLS (applied via migrations)
+- [x] Phase 2: manual M-Pesa verification — verify_payment / reject_payment functions + admin UI (no Daraja, per guidelines)
+- [x] Phase 3: fixed partially_refunded constraint mismatch; refunds, returns, riders, SMS queue
+- [x] Phase 4: audit_logs table, audit triggers, admin Audit log tab
+- [x] Phase 6: payments/refunds unit tests (13 tests passing)
+- [x] Add five uploaded products and rotating adverts with owner-requested simulated prices and quantities
+- [x] Repair anonymous catalog reads without exposing admin role checks
+- [ ] Replace sample product details and provide delivery zones (owner provides real values)
+- [ ] Send SMS (needs SMS provider account, e.g. Africa's Talking) — messages queue reliably meanwhile
+- [ ] Phase 5: marketplace/multi-vendor — out of scope per guidelines

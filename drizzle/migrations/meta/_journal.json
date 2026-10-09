@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1791529826508,
+      "tag": "0000_base_schema_core",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791529852107,
+      "tag": "0001_newsletter_inquiries_testimonials",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791529933134,
+      "tag": "0002_security_hardening_and_delivery",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791529994035,
+      "tag": "0003_audit_log_and_payment_verification",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791530815069,
+      "tag": "0004_repair_public_catalog_reads",
+      "breakpoints": true
+    }
+  ]
+}
