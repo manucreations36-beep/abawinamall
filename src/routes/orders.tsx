@@ -43,23 +43,24 @@ function OrdersPage() {
   }, [user, loading, navigate]);
 
   const { data: orders = [], isLoading } = useQuery({
-    queryKey: ["my-orders", user?.id],
-    enabled: Boolean(user),
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("orders")
-        .select(
-          "id, order_no, status, total, refunded_amount, delivered_at, delivery_zone, payment_method, created_at, order_items(product_name, quantity, unit_price), return_requests(status, refund_amount, admin_note)",
-        )
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return data ?? [];
-    },
-  });
+   queryKey: ["my-orders", user?.id],
+enabled: Boolean(user?.id),
+   queryFn: async () => {
+  if (!user) return [];
 
-  if (!user || isLoading) {
-    return <div className="px-4 py-20 text-center text-muted-foreground">Loading…</div>;
-  }
+  const { data, error } = await supabase
+  .from("orders")
+  .select(
+    "id, order_no, status, total, refunded_amount, delivered_at, delivery_zone, payment_method, created_at, order_items(product_name, quantity, unit_price), return_requests(status, refund_amount, admin_note)",
+  )
+  .eq("user_id", user.id)
+  .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data ?? [];
+},
+
+  });
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
