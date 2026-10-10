@@ -3,16 +3,18 @@ import { X } from "lucide-react";
 import { NewsletterForm } from "./NewsletterForm";
 
 const KEY = "abawina-welcome-seen-v1";
+const SESSION_MS = 30 * 60 * 1000; // show again only after 30 min away
 
 export function WelcomePopup() {
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    if (localStorage.getItem(KEY)) return;
+    const seenAt = Number(localStorage.getItem(KEY) ?? 0);
+    if (seenAt && Date.now() - seenAt < SESSION_MS) return;
     const t = setTimeout(() => setOpen(true), 8000);
     return () => clearTimeout(t);
   }, []);
   const close = () => {
-    localStorage.setItem(KEY, "1");
+    localStorage.setItem(KEY, String(Date.now()));
     setOpen(false);
   };
   if (!open) return null;
